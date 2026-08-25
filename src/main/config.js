@@ -5,6 +5,16 @@
 //       'gemini'  → 走 gemini.js
 // keyField/modelField/baseURLField 指向 settings.js 中的字段名。
 const PROVIDERS = {
+  kilo: {
+    label: "Kilo Code",
+    type: "openai",
+    baseURL: "https://api.kilo.ai/api/gateway/chat/completions",
+    keyField: "kiloApiKey",
+    modelField: "kiloModel",
+    defaultModel: "kilocode/auto-free",
+    fallbacks: [],
+  },
+
   deepseek: {
     label: 'DeepSeek',
     type: 'openai',

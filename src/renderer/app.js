@@ -558,6 +558,8 @@ function openSettings() {
   const s = state.settings;
   $('setDeepgram').value = s.deepgramApiKey || '';
   $('setProvider').value = s.provider || 'gemini';
+  $('setKilo').value = s.kiloApiKey || '';
+  $('setKiloModel').value = s.kiloModel || 'kilocode/auto-free';
   $('setDeepseek').value = s.deepseekApiKey || '';
   $('setDeepseekModel').value = s.deepseekModel || 'deepseek-chat';
   $('setGemini').value = s.geminiApiKey || '';
@@ -579,6 +581,8 @@ async function saveSettings() {
   const partial = {
     deepgramApiKey: $('setDeepgram').value.trim(),
     provider: $('setProvider').value,
+    kiloApiKey: $('setKilo').value.trim(),
+    kiloModel: $('setKiloModel').value.trim() || 'kilocode/auto-free',
     deepseekApiKey: $('setDeepseek').value.trim(),
     deepseekModel: $('setDeepseekModel').value.trim() || 'deepseek-chat',
     geminiApiKey: $('setGemini').value.trim(),

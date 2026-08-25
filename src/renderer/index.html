@@ -256,11 +256,20 @@
           <label class="setting">
             <span>Answer provider</span>
             <select id="setProvider">
+              <option value="kilo">Kilo Code (Free)</option>
               <option value="deepseek">DeepSeek</option>
               <option value="gemini">Gemini</option>
               <option value="openai">OpenAI</option>
               <option value="ollama">Ollama (local)</option>
             </select>
+          </label>
+          <label class="setting">
+            <span>Kilo Code API Key</span>
+            <input type="password" id="setKilo" placeholder="kilo_…" />
+          </label>
+          <label class="setting">
+            <span>Kilo Code model</span>
+            <input type="text" id="setKiloModel" placeholder="kilocode/auto-free" />
           </label>
           <label class="setting">
             <span>DeepSeek API Key</span>
