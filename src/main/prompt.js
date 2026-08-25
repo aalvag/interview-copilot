@@ -12,78 +12,78 @@ function buildPrompt({
   jobDescription,
 }) {
   const langRule =
-    answerLanguage === 'es'
-      ? 'Responde SIEMPRE en Español (Spanish). Prohibido responder en chino o cualquier otro idioma.'
-      : answerLanguage === 'zh'
-        ? '请用中文作答。'
-        : answerLanguage === 'en'
-          ? 'Answer in English.'
-          : 'Responde en el mismo idioma de la pregunta (si preguntan en español, responde en español). Do not use Chinese unless the question is in Chinese.';
+    answerLanguage === "es"
+      ? "Responde SIEMPRE en Español (Spanish)."
+      : answerLanguage === "en"
+        ? "Answer in English."
+        : answerLanguage === "zh"
+          ? "请用中文作答。"
+          : "AUTOMATIC LANGUAGE DETECTION (English / Spanish): Detect the language of the question. If the question/interview is in English, answer in English. If the question/interview is in Spanish, answer in Spanish. DO NOT use Chinese or other languages.";
 
   const lines = [
-    'You are the candidate participating in a live job interview. Eres el candidato en la entrevista.',
-    'Responde en primera persona, con tono profesional, natural y directo como si estuvieras hablando en vivo.',
-    'Requisitos:',
-    `1) 严格控制在 ${maxChars} 字符以内（硬性上限），目标约 300 字、宁可更短。Estructura concisa: primera línea conclusión directa, luego 2-3 puntos clave con viñetas ("- ").`,
-    '2) Texto plano sin Markdown pesado ni títulos innecesarios. Sin rodeos ni saludos.',
-    '3) Comienza directamente con la respuesta. No repitas la pregunta ni pongas "Mi respuesta:".',
-    '4) Usa los datos de la hoja de vida / contexto si aplican; si no, responde con tu conocimiento técnico.',
-    '5) El diálogo proviene de transcripción de voz (puede tener pequeños errores de audio). Identifica la pregunta central y responde a ella.',
-    `6) Regla de Idioma: ${langRule}`,
-    '7) Prohibido responder en caracteres chinos salvo que el idioma configurado sea chino (zh).',
+    "You are the candidate in a live technical job interview. Eres el candidato en la entrevista de trabajo.",
+    "Speak in the first person with a professional, confident, and direct tone, as if speaking aloud in an interview.",
+    "Rules:",
+    `1) 严格控制在 ${maxChars} 字符以内（硬性上限），目标约 300 字、宁可更短。Structure: Start with a direct 1-sentence conclusion/verdict, followed by 2-3 concise bullet points ("- ") with key tools, metrics, or trade-offs.`,
+    "2) Plain text only. No heavy Markdown, no asterisks, no unnecessary headings, no conversational fluff.",
+    "3) Jump straight into the answer. Do not repeat the question or add \"My answer:\".",
+    "4) Ground answers in the provided knowledge base / resume when relevant; otherwise use your senior engineering knowledge.",
+    "5) The transcript comes from live speech-to-text. Tolerate minor acoustic typos and identify the core question.",
+    `6) Language Rule: ${langRule}`,
+    "7) Absolute Language Rule: Never respond in Chinese characters unless the interview is in Chinese.",
   ];
 
   if (jobDescription && jobDescription.trim()) {
     lines.push(
-      '',
-      '================ 目标岗位 JD（请据此定制回答：对齐岗位要求、技术栈与关键词，突出匹配点）================',
+      "",
+      "================ 目标岗位 JD / Job Description (Align your answer with these requirements) ================",
       jobDescription.trim().slice(0, 6000),
     );
   }
   if (profile && profile.trim()) {
     lines.push(
-      '',
-      '================ 本次面试背景与作答风格（最高优先级，务必遵循） ================',
+      "",
+      "================ Candidate Profile & Style (Highest Priority) ================",
       profile.trim(),
     );
   }
-  const systemInstruction = lines.join('\n');
+  const systemInstruction = lines.join("\n");
 
   const parts = [];
-  if (context) parts.push(`【可参考的个人资料 / 知识库 / Knowledge Context】\n${context}\n`);
+  if (context) parts.push(`【可参考的个人资料 / Knowledge Base Context】\n${context}\n`);
 
-  const q = (question || '').trim();
+  const q = (question || "").trim();
   if (q) {
     if (transcript) {
       parts.push(
-        `【最近约15轮面试对话历史 / Transcript Context】\n${transcript}\n`,
+        `【最近约15轮面试对话历史 / Conversation History】\n${transcript}\n`,
       );
     }
-    parts.push(`【需要回答的问题 / Question to Answer】\n${q}`);
-    parts.push('Por favor responde directamente a la pregunta anterior en el idioma correspondiente:');
-    parts.push('\nTu respuesta / Your Answer:');
+    parts.push(`【Question to Answer】\n${q}`);
+    parts.push("Respond directly to this question in the appropriate language (English or Spanish):");
+    parts.push("\nAnswer / Respuesta:");
   } else {
     parts.push(
-      `【最近约15轮面试对话历史 / Transcript Context】\n${transcript || '(Sin diálogo aún)'}\n`,
+      `【最近约15轮面试对话历史 / Conversation History】\n${transcript || "(No conversation yet)"}\n`,
     );
     parts.push(
-      'Identifica en el diálogo la pregunta central que está haciendo el entrevistador (最新/当前) y responde directamente.',
+      "Identify the interviewer core question (最新/当前) from the dialogue and answer it directly in the same language (English or Spanish).",
     );
     parts.push(
-      'Sin prefijos, empieza directamente con tu respuesta.',
+      "Start immediately with your answer.",
     );
-    parts.push('\nTu respuesta / Your Answer:');
+    parts.push("\nAnswer / Respuesta:");
   }
 
-  return { systemInstruction, userText: parts.join('\n') };
+  return { systemInstruction, userText: parts.join("\n") };
 }
 
 // 问题提取（只看最近几轮）
 const EXTRACTION_SYSTEM =
-  "You clean up noisy live interview transcripts. The transcript may contain repeats, cross-talk, ASR errors and half-sentences. Identify the interviewer's CURRENT core question and rewrite it as ONE clean, complete question. Output ONLY that question — no prefix, no quotes, no explanation. Write it in the SAME language the interviewer is speaking (e.g., if Spanish, write in Spanish. Never output Chinese unless interviewer spoke Chinese).";
+  "You clean up noisy live interview transcripts. Identify the interviewer CURRENT core question and rewrite it as ONE clean question. Output ONLY that question — no prefix, no quotes. Write it in the SAME language the interviewer is speaking (English or Spanish). Never output Chinese.";
 
 function buildExtractionUser(recentTranscript) {
-  return `Recent turns:\n${recentTranscript}\n\nThe interviewer's current core question is:`;
+  return `Recent turns:\n${recentTranscript}\n\nThe interviewer current core question is:`;
 }
 
 module.exports = { buildPrompt, EXTRACTION_SYSTEM, buildExtractionUser };
