@@ -11,7 +11,7 @@ const PROVIDERS = {
     baseURL: "https://api.kilo.ai/api/gateway/chat/completions",
     keyField: "kiloApiKey",
     modelField: "kiloModel",
-    defaultModel: "kilocode/auto-free",
+    defaultModel: "kilo-auto/free",
     fallbacks: [],
   },
 
