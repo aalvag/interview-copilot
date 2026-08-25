@@ -5,6 +5,16 @@
 //       'gemini'  → 走 gemini.js
 // keyField/modelField/baseURLField 指向 settings.js 中的字段名。
 const PROVIDERS = {
+  groq: {
+    label: "Groq (Ultra-Fast)",
+    type: "openai",
+    baseURL: "https://api.groq.com/openai/v1/chat/completions",
+    keyField: "groqApiKey",
+    modelField: "groqModel",
+    defaultModel: "llama-3.3-70b-versatile",
+    fallbacks: ["llama-3.1-8b-instant"],
+  },
+
   kilo: {
     label: "Kilo Code",
     type: "openai",

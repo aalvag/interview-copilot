@@ -558,6 +558,8 @@ function openSettings() {
   const s = state.settings;
   $('setDeepgram').value = s.deepgramApiKey || '';
   $('setProvider').value = s.provider || 'gemini';
+  $('setGroq').value = s.groqApiKey || '';
+  $('setGroqModel').value = s.groqModel || 'llama-3.3-70b-versatile';
   $('setKilo').value = s.kiloApiKey || '';
   $('setKiloModel').value = s.kiloModel || 'kilo-auto/free';
   $('setDeepseek').value = s.deepseekApiKey || '';
@@ -581,6 +583,8 @@ async function saveSettings() {
   const partial = {
     deepgramApiKey: $('setDeepgram').value.trim(),
     provider: $('setProvider').value,
+    groqApiKey: $('setGroq').value.trim(),
+    groqModel: $('setGroqModel').value.trim() || 'llama-3.3-70b-versatile',
     kiloApiKey: $('setKilo').value.trim(),
     kiloModel: $('setKiloModel').value.trim() || 'kilo-auto/free',
     deepseekApiKey: $('setDeepseek').value.trim(),

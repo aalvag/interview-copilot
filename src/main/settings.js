@@ -8,7 +8,9 @@ const { app } = require('electron');
 const DEFAULTS = {
   deepgramApiKey: process.env.DEEPGRAM_API_KEY || '',
   // 答案 Provider： deepseek / gemini / openai / ollama
-  provider: 'kilo',
+  provider: 'groq',
+  groqApiKey: process.env.GROQ_API_KEY || '',
+  groqModel: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
   kiloApiKey: process.env.KILO_API_KEY || '',
   kiloModel: process.env.KILO_MODEL || 'kilo-auto/free',
   geminiApiKey: process.env.GEMINI_API_KEY || '',

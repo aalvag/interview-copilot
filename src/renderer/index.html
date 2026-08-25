@@ -256,12 +256,21 @@
           <label class="setting">
             <span>Answer provider</span>
             <select id="setProvider">
+              <option value="groq">Groq (Ultra-Fast)</option>
               <option value="kilo">Kilo Code (Free)</option>
               <option value="deepseek">DeepSeek</option>
               <option value="gemini">Gemini</option>
               <option value="openai">OpenAI</option>
               <option value="ollama">Ollama (local)</option>
             </select>
+          </label>
+          <label class="setting">
+            <span>Groq API Key</span>
+            <input type="password" id="setGroq" placeholder="gsk_…" />
+          </label>
+          <label class="setting">
+            <span>Groq model</span>
+            <input type="text" id="setGroqModel" placeholder="llama-3.3-70b-versatile" />
           </label>
           <label class="setting">
             <span>Kilo Code API Key</span>
