@@ -11,8 +11,8 @@ const PROVIDERS = {
     baseURL: "https://api.groq.com/openai/v1/chat/completions",
     keyField: "groqApiKey",
     modelField: "groqModel",
-    defaultModel: "llama-3.3-70b-versatile",
-    fallbacks: ["llama-3.1-8b-instant"],
+    defaultModel: "openai/gpt-oss-120b",
+    fallbacks: ["openai/gpt-oss-20b", "qwen/qwen3.6-27b"],
   },
 
   kilo: {

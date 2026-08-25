@@ -559,7 +559,7 @@ function openSettings() {
   $('setDeepgram').value = s.deepgramApiKey || '';
   $('setProvider').value = s.provider || 'gemini';
   $('setGroq').value = s.groqApiKey || '';
-  $('setGroqModel').value = s.groqModel || 'llama-3.3-70b-versatile';
+  $('setGroqModel').value = s.groqModel || 'openai/gpt-oss-120b';
   $('setKilo').value = s.kiloApiKey || '';
   $('setKiloModel').value = s.kiloModel || 'kilo-auto/free';
   $('setDeepseek').value = s.deepseekApiKey || '';
@@ -584,7 +584,7 @@ async function saveSettings() {
     deepgramApiKey: $('setDeepgram').value.trim(),
     provider: $('setProvider').value,
     groqApiKey: $('setGroq').value.trim(),
-    groqModel: $('setGroqModel').value.trim() || 'llama-3.3-70b-versatile',
+    groqModel: $('setGroqModel').value.trim() || 'openai/gpt-oss-120b',
     kiloApiKey: $('setKilo').value.trim(),
     kiloModel: $('setKiloModel').value.trim() || 'kilo-auto/free',
     deepseekApiKey: $('setDeepseek').value.trim(),

@@ -10,7 +10,7 @@ const DEFAULTS = {
   // 答案 Provider： deepseek / gemini / openai / ollama
   provider: 'groq',
   groqApiKey: process.env.GROQ_API_KEY || '',
-  groqModel: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
+  groqModel: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
   kiloApiKey: process.env.KILO_API_KEY || '',
   kiloModel: process.env.KILO_MODEL || 'kilo-auto/free',
   geminiApiKey: process.env.GEMINI_API_KEY || '',

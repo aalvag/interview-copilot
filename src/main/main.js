@@ -361,15 +361,29 @@ ipcMain.on('generate-answer', async (_e, { reqId, question, transcript }) => {
       .catch(() => {});
   }
 
+  const startTime = Date.now();
+  let firstTokenTime = null;
+  let chunkCount = 0;
+  console.log(`[Copilot] 🚀 Generating answer using provider=${prov.label}, primary model=${prov.models[0]}`);
+
   try {
-    await llm.generateWithFallback({
+    const result = await llm.generateWithFallback({
       ...common,
       systemInstruction,
       userText,
       maxOutputTokens,
-      onStart: (model) => send('answer-start', { question: q, model, primary: prov.models[0] }),
-      onChunk: (delta) => send('answer-chunk', { delta }),
+      onStart: (model) => {
+        firstTokenTime = Date.now();
+        console.log(`[Copilot] ⏱️ Time to First Token (TTFT): ${firstTokenTime - startTime}ms (Model: ${model})`);
+        send('answer-start', { question: q, model, primary: prov.models[0] });
+      },
+      onChunk: (delta) => {
+        chunkCount++;
+        send('answer-chunk', { delta });
+      },
     });
+    const totalTime = Date.now() - startTime;
+    console.log(`[Copilot] ✅ Answer finished in ${totalTime}ms (${chunkCount} chunks, ${(result?.text || '').length} chars)`);
     send('answer-done', {});
   } catch (e) {
     if (e.name === 'AbortError') {
