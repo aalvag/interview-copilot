@@ -1,3 +1,4 @@
+require('dotenv').config({ path: require('path').join(__dirname, '../../.env') });
 'use strict';
 
 const fs = require('fs');
@@ -42,12 +43,18 @@ function settingsPath() {
 }
 
 function load() {
+  let loaded = {};
   try {
     const raw = fs.readFileSync(settingsPath(), 'utf8');
-    return { ...DEFAULTS, ...JSON.parse(raw) };
-  } catch (_e) {
-    return { ...DEFAULTS };
+    loaded = JSON.parse(raw);
+  } catch (_e) {}
+  const merged = { ...DEFAULTS, ...loaded };
+  for (const k of Object.keys(DEFAULTS)) {
+    if (!merged[k] && DEFAULTS[k]) {
+      merged[k] = DEFAULTS[k];
+    }
   }
+  return merged;
 }
 
 function save(partial) {
