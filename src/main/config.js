@@ -12,7 +12,7 @@ const PROVIDERS = {
     keyField: "groqApiKey",
     modelField: "groqModel",
     defaultModel: "openai/gpt-oss-120b",
-    fallbacks: ["openai/gpt-oss-20b", "qwen/qwen3.6-27b"],
+    fallbacks: ["openai/gpt-oss-20b"],
   },
 
   kilo: {

@@ -330,11 +330,8 @@ ipcMain.on('generate-answer', async (_e, { reqId, question, transcript }) => {
   const maxChars = currentSettings.maxChars || 500;
   const lang = currentSettings.answerLanguage || 'auto';
   const perChar = lang === 'en' ? 0.5 : 1.1;
-  const maxOutputTokens =
-    prov.type === 'openai'
-      ? 4096
-      : Math.min(4096, Math.max(160, Math.ceil(maxChars * perChar * 1.15)));
-  const extractTokens = prov.type === 'openai' ? 1024 : 80;
+  const maxOutputTokens = Math.min(600, Math.max(160, Math.ceil(maxChars * perChar * 1.15)));
+  const extractTokens = 60;
 
   const common = {
     streamFn: prov.streamFn,
