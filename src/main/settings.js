@@ -21,7 +21,7 @@ const DEFAULTS = {
   ollamaBaseURL: process.env.OLLAMA_BASE_URL || 'http://localhost:11434/v1/chat/completions',
   ollamaModel: 'llama3.1',
   // 转写语言： zh / en-US / multi
-  sttLanguage: 'en-US',
+  sttLanguage: 'es',
   // 生成模型（可编辑，填你账号能用的任意 Flash 模型 ID）
   genModel: 'gemini-2.5-flash',
   // 注入到上下文的资料最大字符数
@@ -33,7 +33,7 @@ const DEFAULTS = {
   // 答案字数上限
   maxChars: 500,
   // 答案语言： auto（跟随问题） / zh / en
-  answerLanguage: 'auto',
+  answerLanguage: 'es',
   // 面试背景与作答风格（注入到系统提示，最高优先级）
   interviewProfile: '',
   // 目标岗位 JD（持久化；上传或粘贴，作答时据此定制）
